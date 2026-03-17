@@ -118,9 +118,7 @@
   #figure(
     table(
       columns: (1fr, 2.2fr, 2.2fr),
-      table.header(
-        [*Audience*], [*What they want*], [*How 0 C.E. serves them*]
-      ),
+      table.header([*Audience*], [*What they want*], [*How 0 C.E. serves them*]),
       [Spreadsheet Optimizer],
       [Exact formulas, min-maxable systems, deep build orders],
       [All formulas are documented and deterministic; production chains
@@ -241,8 +239,8 @@
   #align(center)[
     #text(size: 8.5pt, fill: luma(140))[
       Changes to this document must be recorded in
-      #link("Changelog.pdf")[Changelog] ·
-      #link("Home.pdf")[← Back to Wiki Home]
+      #link("/wiki/overview/Changelog.pdf")[Changelog]
+      #link("/wiki/overview/Home.pdf")[← Back to Wiki Home]
     ]
   ]
 ]
