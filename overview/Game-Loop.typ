@@ -181,12 +181,8 @@
     table(
       columns: (2fr, 1fr, 2fr),
       table.header([*Cancellation type*], [*Refund*], [*Formula*]),
-      [Active construction],
-      [0% -- 100%],
-      [cost × (1 − progression)],
-      [Queued (not yet started)],
-      [75%],
-      [cost × 0.75],
+      [Active construction], [0% -- 100%], [cost × (1 − progression)],
+      [Queued (not yet started)], [75%], [cost × 0.75],
     ),
     kind: table,
   )
@@ -334,10 +330,18 @@
     table(
       columns: (2fr, 1.2fr, 2fr),
       table.header([*Parameter*], [*Type*], [*Notes*]),
-      [`night_mode_enabled`], [`bool`], [Defaults to `true`. Set to `false` to disable entirely.],
+      [`night_mode_enabled`],
+      [`bool`],
+      [Defaults to `true`. Set to `false` to disable entirely.],
+
       [`night_start`], [`HH:MM`], [Server time. Any valid 24h time.],
-      [`night_end`], [`HH:MM`], [Server time. Can cross midnight (e.g. 23:00--05:00).],
-      [`defense_bonus`], [`float`], [Multiplier added to base defense. 1.0 = +100%. Min 0, no hard max.],
+      [`night_end`],
+      [`HH:MM`],
+      [Server time. Can cross midnight (e.g. 23:00--05:00).],
+
+      [`defense_bonus`],
+      [`float`],
+      [Multiplier added to base defense. 1.0 = +100%. Min 0, no hard max.],
     ),
     kind: table,
   )
