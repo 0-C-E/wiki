@@ -23,11 +23,11 @@
   radius: 2pt,
 )[#text(size: 8.5pt, fill: color, weight: "semibold")[#label]]
 
-#let per-city   = tag("Per city",    rgb("#2a7a4b"))
-#let account    = tag("Account-wide", rgb("#1a5f7a"))
-#let has-cap    = tag("Capped",      rgb("#7a5c2a"))
-#let no-cap     = tag("Uncapped",    rgb("#5a2a7a"))
-#let tbd        = tag("TBD",         luma(120))
+#let per-city = tag("Per city", rgb("#2a7a4b"))
+#let account = tag("Account-wide", rgb("#1a5f7a"))
+#let has-cap = tag("Capped", rgb("#7a5c2a"))
+#let no-cap = tag("Uncapped", rgb("#5a2a7a"))
+#let tbd = tag("TBD", luma(120))
 
 #gdd-page(title: "0 C.E. — Resources")[
 
@@ -57,13 +57,13 @@
     table(
       columns: (1fr, 1.2fr, 1fr, 1fr),
       table.header([*Resource*], [*Icon*], [*Scope*], [*Storage*]),
-      [Wood],       [🪵], per-city,  has-cap,
-      [Stone],      [🪨], per-city,  has-cap,
-      [Metal],      [⛏️], per-city,  has-cap,
-      [Food],       [🌾], per-city,  has-cap,
-      [Population], [👥], per-city,  has-cap,
-      [Favor],      [✨], tag("Per world", rgb("#1a5f7a")),   has-cap,
-      [Gold],       [💰], account,   no-cap,
+      [Wood], [🪵], per-city, has-cap,
+      [Stone], [🪨], per-city, has-cap,
+      [Metal], [⛏️], per-city, has-cap,
+      [Food], [🌾], per-city, has-cap,
+      [Population], [👥], per-city, has-cap,
+      [Favor], [✨], tag("Per world", rgb("#1a5f7a")), has-cap,
+      [Gold], [💰], account, no-cap,
     ),
     kind: table,
   )
@@ -270,6 +270,7 @@
       [The player requests a resource payment from a controlled
         village. The village fulfils the request after a cooldown.
         One request per village per cooldown window.],
+
       [*Village commerce*],
       [The player sends a merchant to trade with a controlled
         village, exchanging one resource type for another at
@@ -291,19 +292,14 @@
   #figure(
     table(
       columns: (1fr, 1fr, 1fr, 2fr),
-      table.header(
-        [*Resource*],
-        [*Scope*],
-        [*Cap*],
-        [*Cap set by*],
-      ),
-      [Wood],       [Per city],     [Yes], [Warehouse],
-      [Stone],      [Per city],     [Yes], [Warehouse],
-      [Metal],      [Per city],     [Yes], [Warehouse],
-      [Food],       [Per city],     [Yes], [Granary],
-      [Population], [Per city],     [Yes], [Granary (+Public Baths)],
-      [Favor],      [Per world],    [Yes], [World configuration],
-      [Gold],       [Account-wide], [No],  [---],
+      table.header([*Resource*], [*Scope*], [*Cap*], [*Cap set by*]),
+      [Wood], [Per city], [Yes], [Warehouse],
+      [Stone], [Per city], [Yes], [Warehouse],
+      [Metal], [Per city], [Yes], [Warehouse],
+      [Food], [Per city], [Yes], [Granary],
+      [Population], [Per city], [Yes], [Granary (+Public Baths)],
+      [Favor], [Per world], [Yes], [World configuration],
+      [Gold], [Account-wide], [No], [---],
     ),
     kind: table,
   )
