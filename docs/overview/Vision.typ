@@ -118,7 +118,9 @@
   #figure(
     table(
       columns: (1fr, 2.2fr, 2.2fr),
-      table.header([*Audience*], [*What they want*], [*How 0 C.E. serves them*]),
+      table.header(
+        [*Audience*], [*What they want*], [*How 0 C.E. serves them*]
+      ),
       [Spreadsheet Optimizer],
       [Exact formulas, min-maxable systems, deep build orders],
       [All formulas are documented and deterministic; production chains
