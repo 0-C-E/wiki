@@ -1,0 +1,159 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# 0 C.E. — Documentation build & GitHub Pages deploy
+#
+# SETUP (do once in the main game repo):
+#   1. Copy this file to  .github/workflows/docs.yml  in the main repo.
+#   2. Keep all Typst docs under  docs/  using the new arborescence:
+#        docs/overview/       docs/gameplay/       docs/civilizations/
+#        docs/advanced/       docs/technical/
+#   3. Keep shared files in  docs/templates/  and helpers in  docs/scripts/.
+#   4. ALL imports must use absolute paths from the repo root, e.g.:
+#        #import "/docs/templates/_preamble.typ": gdd-page
+#        #import "/docs/utils/formulas.typ": building_table
+#      Relative imports (../../utils/...) will break under --root.
+#   5. Do NOT use Linux Libertine, Georgia, Fira Code, or Cascadia Mono —
+#      use "New Computer Modern" (body) and "DejaVu Sans Mono" (code) only.
+#      Both are bundled with Typst and always available in CI.
+#   6. Escape $ in Typst source — it opens math mode. Write "50 USD" not "$50".
+#   7. In GitHub → Settings → Pages → Source, choose "GitHub Actions".
+#   8. Push — the site builds automatically on every push that touches docs/.
+# ─────────────────────────────────────────────────────────────────────────────
+
+name: Build and Deploy Documentation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs/**"
+      - ".github/workflows/docs.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # ── Toolchain ──────────────────────────────────────────────────────────
+      - name: Set up Typst
+        uses: typst-community/setup-typst@v4
+        with:
+          typst-version: latest
+
+      - name: Install typstyle
+        run: |
+          curl -fsSL "https://github.com/typstyle-rs/typstyle/releases/download/v0.14.4/typstyle-x86_64-unknown-linux-gnu" -o /tmp/typstyle
+          sudo install -m 0755 /tmp/typstyle /usr/local/bin/typstyle
+
+      - name: Verify typstyle installation
+        run: typstyle --version
+
+      # ── Format source files ───────────────────────────────────────────────
+      - name: Format Typst files
+        run: |
+          find docs -type f -name "*.typ" \
+            ! -path "docs/templates/*" \
+            ! -path "docs/utils/*" \
+            -exec typstyle -i {} \;
+
+      - name: Commit formatted files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git diff --quiet || git commit -am "style: auto-format Typst files"
+          git push
+
+      # ── Typst → PDF ────────────────────────────────────────────────────────
+      - name: Compile Typst to PDF
+        run: |
+          set -euo pipefail
+
+          find docs -type f -name "*.typ" \
+            ! -path "docs/templates/*" \
+            ! -path "docs/utils/*" | while IFS= read -r src; do
+            rel="${src#docs/}"
+            dest="_site/${rel%.typ}.pdf"
+            mkdir -p "$(dirname "$dest")"
+
+            typst compile "$src" "$dest" \
+              --root "$GITHUB_WORKSPACE"
+          done
+
+      # ── Validate ───────────────────────────────────────────────────────────
+      - name: Validate generated artifact content
+        run: |
+          set -euo pipefail
+
+          echo "--- _site artifact preview ---"
+          if [ -d _site ]; then
+            find _site -maxdepth 4 -type f | sort | sed -n '1,200p'
+          else
+            echo "_site directory is missing"
+            exit 1
+          fi
+
+          # Required files — CI fails if these are missing.
+          REQUIRED=(
+            "_site/overview/Home.pdf"
+            "_site/overview/Vision.pdf"
+          )
+
+          for f in "${REQUIRED[@]}"; do
+            if [ ! -f "$f" ]; then
+              echo "Missing required file: $f"
+              exit 1
+            fi
+          done
+
+          echo "All required files present."
+
+      # ── Root redirect ──────────────────────────────────────────────────────
+      - name: Create root redirect
+        run: |
+          cat > _site/index.html <<'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="utf-8">
+            <title>0 C.E. — GDD</title>
+            <meta http-equiv="refresh" content="0; url=overview/Home.pdf">
+          </head>
+          <body><a href="overview/Home.pdf">Open documentation (PDF)</a></body>
+          </html>
+          EOF
+
+          touch _site/.nojekyll
+
+      # ── Deploy ─────────────────────────────────────────────────────────────
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
