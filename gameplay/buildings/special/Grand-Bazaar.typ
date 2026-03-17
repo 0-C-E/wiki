@@ -1,6 +1,7 @@
 #import "/utils/formulas.typ": building_table, starting_levels
 #import "/utils/constants.typ": (
-  special_building_construction_duration, special_building_points, special_building_population_cost,
+  special_building_construction_duration, special_building_points,
+  special_building_population_cost,
 )
 
 = 0 C.E. --- Grand Bazaar #emph[(Special)] <grand-bazaar-special>

@@ -1,4 +1,6 @@
-#import "/utils/formulas.typ": building_table, format_time, growth_time, starting_levels
+#import "/utils/formulas.typ": (
+  building_table, format_time, growth_time, starting_levels,
+)
 
 = 0 C.E. --- Academy <academy>
 #link("#")[← Buildings & Wonders]
