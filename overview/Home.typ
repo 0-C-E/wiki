@@ -246,52 +246,52 @@
       // Special
       (
         "Central Storehouses",
-        "/wiki/gameplay/buildings/production/Central-Storehouses.pdf",
+        "/wiki/gameplay/buildings/special/Central-Storehouses.pdf",
         "Alliance-level shared storage.",
       ),
       (
         "Governor's Palace",
-        "/wiki/gameplay/buildings/civic/Governors-Palace.pdf",
+        "/wiki/gameplay/buildings/special/Governors-Palace.pdf",
         "Regional control and administrator assignment.",
       ),
       (
         "Grand Bazaar",
-        "/wiki/gameplay/buildings/culture-religion/Grand-Bazaar.pdf",
+        "/wiki/gameplay/buildings/special/Grand-Bazaar.pdf",
         "Wonder-class; trade network hub.",
       ),
       (
         "Grand Temple",
-        "/wiki/gameplay/buildings/culture-religion/Grand-Temple.pdf",
+        "/wiki/gameplay/buildings/special/Grand-Temple.pdf",
         "Wonder-class religious building, civ-specific.",
       ),
       (
         "Great Library",
-        "/wiki/gameplay/buildings/culture-religion/Great-Library.pdf",
+        "/wiki/gameplay/buildings/special/Great-Library.pdf",
         "Wonder-class; unlocks unique tech branches.",
       ),
       (
         "Guild District",
-        "/wiki/gameplay/buildings/civic/Guild-District.pdf",
+        "/wiki/gameplay/buildings/special/Guild-District.pdf",
         "Artisan bonuses and trade-good unlocks.",
       ),
       (
         "Public Baths",
-        "/wiki/gameplay/buildings/civic/Public-Baths.pdf",
+        "/wiki/gameplay/buildings/special/Public-Baths.pdf",
         "Happiness bonus and disease mitigation.",
       ),
       (
         "Siege Workshop",
-        "/wiki/gameplay/buildings/military/Siege-Workshop.pdf",
+        "/wiki/gameplay/buildings/special/Siege-Workshop.pdf",
         "Siege engine construction and deployment.",
       ),
       (
         "Theatre",
-        "/wiki/gameplay/buildings/civic/Theatre.pdf",
+        "/wiki/gameplay/buildings/special/Theatre.pdf",
         "Culture output and unrest reduction.",
       ),
       (
         "Watchtower",
-        "/wiki/gameplay/buildings/military/Watchtower.pdf",
+        "/wiki/gameplay/buildings/special/Watchtower.pdf",
         "Visibility radius and early-warning triggers.",
       ),
     ),
