@@ -1,0 +1,12 @@
+// Pandoc template for Typst output — 0 C.E. GDD
+// Place at:  templates/_pandoc.template  in the main repository.
+//
+// This file is processed by pandoc BEFORE Typst sees it.
+// $variables$ are substituted by pandoc; the result is valid Typst.
+// Do NOT compile this file directly with typst.
+
+#import "/templates/_preamble.typ": gdd-page
+
+#show: gdd-page.with(title: "$title$")
+
+$body$

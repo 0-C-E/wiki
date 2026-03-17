@@ -3,20 +3,20 @@
 #
 # SETUP (do once in the main game repo):
 #   1. Copy this file to  .github/workflows/docs.yml  in the main repo.
-#   2. Keep all Typst docs under  docs/  using the new arborescence:
-#        docs/overview/       docs/gameplay/       docs/civilizations/
-#        docs/advanced/       docs/technical/
-#   3. Keep shared files in  docs/templates/  and helpers in  docs/scripts/.
+#   2. Keep all Typst docs under    using the new arborescence:
+#        overview/       gameplay/       civilizations/
+#        advanced/       technical/
+#   3. Keep shared files in  templates/  and helpers in  scripts/.
 #   4. ALL imports must use absolute paths from the repo root, e.g.:
-#        #import "/docs/templates/_preamble.typ": gdd-page
-#        #import "/docs/utils/formulas.typ": building_table
+#        #import "/templates/_preamble.typ": gdd-page
+#        #import "/utils/formulas.typ": building_table
 #      Relative imports (../../utils/...) will break under --root.
 #   5. Do NOT use Linux Libertine, Georgia, Fira Code, or Cascadia Mono —
 #      use "New Computer Modern" (body) and "DejaVu Sans Mono" (code) only.
 #      Both are bundled with Typst and always available in CI.
 #   6. Escape $ in Typst source — it opens math mode. Write "50 USD" not "$50".
 #   7. In GitHub → Settings → Pages → Source, choose "GitHub Actions".
-#   8. Push — the site builds automatically on every push that touches docs/.
+#   8. Push — the site builds automatically on every push that touches .
 # ─────────────────────────────────────────────────────────────────────────────
 
 name: Build and Deploy Documentation
@@ -25,7 +25,7 @@ on:
   push:
     branches: [main]
     paths:
-      - "docs/**"
+      - "**"
       - ".github/workflows/docs.yml"
   workflow_dispatch:
 
@@ -66,8 +66,8 @@ jobs:
       - name: Format Typst files
         run: |
           find docs -type f -name "*.typ" \
-            ! -path "docs/templates/*" \
-            ! -path "docs/utils/*" \
+            ! -path "templates/*" \
+            ! -path "utils/*" \
             -exec typstyle -i {} \;
 
       - name: Commit formatted files
@@ -83,9 +83,9 @@ jobs:
           set -euo pipefail
 
           find docs -type f -name "*.typ" \
-            ! -path "docs/templates/*" \
-            ! -path "docs/utils/*" | while IFS= read -r src; do
-            rel="${src#docs/}"
+            ! -path "templates/*" \
+            ! -path "utils/*" | while IFS= read -r src; do
+            rel="${src#}"
             dest="_site/${rel%.typ}.pdf"
             mkdir -p "$(dirname "$dest")"
 
