@@ -1,12 +1,12 @@
 # ─────────────────────────────────────────────────────────────────────────────
 # 0 C.E. — Documentation build & GitHub Pages deploy
 #
-# SETUP (do once in the main game repo):
-#   1. Copy this file to  .github/workflows/docs.yml  in the main repo.
-#   2. Keep all Typst docs under    using the new arborescence:
+# SETUP (do once):
+#   1. Copy this file to  .github/workflows/docs.yml  in the wiki repo.
+#   2. All Typst docs live directly at the repo root using this structure:
 #        overview/       gameplay/       civilizations/
 #        advanced/       technical/
-#   3. Keep shared files in  templates/  and helpers in  scripts/.
+#   3. Shared files live in  templates/  and helpers in  scripts/.
 #   4. ALL imports must use absolute paths from the repo root, e.g.:
 #        #import "/templates/_preamble.typ": gdd-page
 #        #import "/utils/formulas.typ": building_table
@@ -15,8 +15,11 @@
 #      use "New Computer Modern" (body) and "DejaVu Sans Mono" (code) only.
 #      Both are bundled with Typst and always available in CI.
 #   6. Escape $ in Typst source — it opens math mode. Write "50 USD" not "$50".
-#   7. In GitHub → Settings → Pages → Source, choose "GitHub Actions".
-#   8. Push — the site builds automatically on every push that touches .
+#   7. PDF links must be absolute with the repo name prefix, e.g.:
+#        #link("/wiki/gameplay/buildings/production/Farm.pdf")
+#      The repo is served at https://0-c-e.github.io/wiki/ by GitHub Pages.
+#   8. In GitHub -> Settings -> Pages -> Source, choose "GitHub Actions".
+#   9. Push -- the site builds automatically on every push that touches .typ files.
 # ─────────────────────────────────────────────────────────────────────────────
 
 name: Build and Deploy Documentation
@@ -25,7 +28,7 @@ on:
   push:
     branches: [main]
     paths:
-      - "**"
+      - "**/*.typ"
       - ".github/workflows/docs.yml"
   workflow_dispatch:
 
@@ -65,9 +68,9 @@ jobs:
       # ── Format source files ───────────────────────────────────────────────
       - name: Format Typst files
         run: |
-          find docs -type f -name "*.typ" \
-            ! -path "templates/*" \
-            ! -path "utils/*" \
+          find . -type f -name "*.typ" \
+            ! -path "./templates/*" \
+            ! -path "./utils/*" \
             -exec typstyle -i {} \;
 
       - name: Commit formatted files
@@ -77,15 +80,16 @@ jobs:
           git diff --quiet || git commit -am "style: auto-format Typst files"
           git push
 
-      # ── Typst → PDF ────────────────────────────────────────────────────────
+      # ── Typst -> PDF ───────────────────────────────────────────────────────
       - name: Compile Typst to PDF
         run: |
           set -euo pipefail
 
-          find docs -type f -name "*.typ" \
-            ! -path "templates/*" \
-            ! -path "utils/*" | while IFS= read -r src; do
-            rel="${src#}"
+          find . -type f -name "*.typ" \
+            ! -path "./templates/*" \
+            ! -path "./utils/*" \
+            ! -path "./.github/*" | while IFS= read -r src; do
+            rel="${src#./}"
             dest="_site/${rel%.typ}.pdf"
             mkdir -p "$(dirname "$dest")"
 
@@ -106,7 +110,6 @@ jobs:
             exit 1
           fi
 
-          # Required files — CI fails if these are missing.
           REQUIRED=(
             "_site/overview/Home.pdf"
             "_site/overview/Vision.pdf"
@@ -129,7 +132,7 @@ jobs:
           <html lang="en">
           <head>
             <meta charset="utf-8">
-            <title>0 C.E. — GDD</title>
+            <title>0 C.E. -- GDD</title>
             <meta http-equiv="refresh" content="0; url=overview/Home.pdf">
           </head>
           <body><a href="overview/Home.pdf">Open documentation (PDF)</a></body>
