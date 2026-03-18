@@ -9,7 +9,7 @@
 // CANON RULE: Storage cap values must stay consistent with
 //             /gameplay/buildings/production/Granary.typ (Food),
 //             /gameplay/buildings/production/Warehouse.typ (Wood/Stone/Metal),
-//             and /gameplay/buildings/culture-religion/Shrine-Temple.typ (Favor).
+//             and /gameplay/buildings/culture-religion/Shrine.typ (Favor).
 // =============================================================================
 
 #import "/templates/_preamble.typ": accent, dark, gdd-page, mid
@@ -203,8 +203,8 @@
   independent Favor reserve.
 
   *Sources:*
-  - Shrine / Temple buildings (passive production, scales with level)
-  - Grand Temple special building (multiplies Shrine/Temple output)
+  - Shrine buildings (passive production, scales with level)
+  - Temple special building (multiplies Shrine output)
   - Civilization-specific bonuses (Sumer, Egypt, Maya, Greece each
     have unique Favor generation mechanics — see their respective
     civilization pages)

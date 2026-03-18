@@ -192,8 +192,8 @@
         "Research speed and scholar capacity.",
       ),
       (
-        "Shrine / Temple",
-        "/wiki/gameplay/buildings/culture-religion/Shrine-Temple.pdf",
+        "Shrine",
+        "/wiki/gameplay/buildings/culture-religion/Shrine.pdf",
         "Faith generation and deity favour.",
       ),
       // Military
@@ -260,8 +260,8 @@
         "Wonder-class; trade network hub.",
       ),
       (
-        "Grand Temple",
-        "/wiki/gameplay/buildings/special/Grand-Temple.pdf",
+        "Temple",
+        "/wiki/gameplay/buildings/special/Temple.pdf",
         "Wonder-class religious building, civ-specific.",
       ),
       (
